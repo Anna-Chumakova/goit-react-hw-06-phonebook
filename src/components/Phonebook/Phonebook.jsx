@@ -1,4 +1,4 @@
-
+import Notiflix from "notiflix";
 import FormAddContact from "./FormAddContact/FormAddContact";
 import ContactList from "./ContactList/ContactList";
 import { useSelector, useDispatch } from "react-redux";
@@ -17,7 +17,7 @@ const Phonebook = () => {
     
     const onAddContact = (contact) => {
     if (isDuplicate(contact)) {
-        return alert(`${contact.name} - ${contact.number} is already in contacts`);
+        return Notiflix.Notify.info(`${contact.name} - ${contact.number} is already in contacts`);
     }
     const action = addContact(contact);
         dispatch(action);
