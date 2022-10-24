@@ -1,7 +1,6 @@
-//import { useState, useEffect } from "react";
+
 import FormAddContact from "./FormAddContact/FormAddContact";
 import ContactList from "./ContactList/ContactList";
-//import { nanoid } from "nanoid";
 import { useSelector, useDispatch } from "react-redux";
 import styles from "./Phonebook.module.css";
 import { addContact, removeContact } from "redux/Contacts/Contacts-slice";
@@ -15,7 +14,6 @@ const Phonebook = () => {
     const contacts = useSelector(getFilteredContacts);
     const filter = useSelector(getFilter);
     const dispatch = useDispatch();
-    console.log(contacts);
     
     const onAddContact = (contact) => {
     if (isDuplicate(contact)) {
@@ -35,10 +33,9 @@ const Phonebook = () => {
     }
         
     const isDuplicate = ({name, number}) => {
-        const result = contacts.contacts.find((item) => item.name === name && item.number === number);
+        const result = contacts.find((item) => item.name === name && item.number === number);
         return result;
     }
-    console.log(contacts);
     return (
         <div className={styles.container}>
             <h2 className={styles.title}>Contacts</h2>
@@ -55,8 +52,5 @@ const Phonebook = () => {
       </div>
     )   
     }
-// Phonebook.propTypes = {
-//     name: propTypes.string,
-//     number: propTypes.number
-// }
+
 export default Phonebook;

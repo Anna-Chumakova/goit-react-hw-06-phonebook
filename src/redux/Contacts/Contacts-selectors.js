@@ -1,8 +1,10 @@
 export const getContacts = store => store.contacts;
-export const getFilteredContacts = ({ contacts, filter}) => {   
-    //const { contacts, filter } = data;
+export const getFilteredContacts = ({ contacts }) => {  
+    
+    const { filter } = contacts;
+    
     if (!filter) {
-        return contacts;
+        return contacts.contacts;
     }
 
     const normalizedFilter = filter.toLocaleLowerCase();
@@ -12,6 +14,6 @@ export const getFilteredContacts = ({ contacts, filter}) => {
         const result = normalizedName.includes(normalizedFilter) || normalizedNumber.includes(normalizedFilter);
         return result;
     })
-    
+    console.log(filteredContacts);
     return filteredContacts;
 }
