@@ -3,6 +3,7 @@ import { nanoid } from "nanoid";
 import propTypes from "prop-types"
 import styles from "./FormAddContact.module.css";
 
+
 const FormAddContact = ({ onSubmit }) => {
     const [name, setName] = useState("");
     const [number, setNumber] = useState("");
