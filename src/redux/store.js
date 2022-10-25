@@ -1,31 +1,52 @@
 import { configureStore } from '@reduxjs/toolkit';
+import {filterSlice}  from './Filter/Filter-slice';
+import {contactsSlice} from './Contacts/Contacts-slice';
+import {
+    persistStore,
+    persistReducer,
+    FLUSH,
+    REHYDRATE,
+    PAUSE,
+    PERSIST,
+    PURGE,
+    REGISTER,
+  } from 'redux-persist'
+import storage from 'redux-persist/lib/storage';
+import { combineReducers } from "@reduxjs/toolkit";
 
-import {reducerFilterSlice}  from './Filter/Filter-slice';
-import {reducerContactsSlice} from './Contacts/Contacts-slice';
 
-// import {
-//     persistStore,
-//     persistReducer,
-//     FLUSH,
-//     REHYDRATE,
-//     PAUSE,
-//     PERSIST,
-//     PURGE,
-//     REGISTER,
-//   } from 'redux-persist'
-// import storage from 'redux-persist/lib/storage';
 
-// const contactsPersistConfig = {
-//         key: 'root',
-//         storage,
-// }
-    
-// const persistedContactsReducer = persistReducer(contactsPersistConfig, contactReducer);
+const contactReducer = combineReducers({
+    contacts: contactsSlice.reducer,
+    filter: filterSlice.reducer,
+ })
+const contactPersistConfig = {
+        key: 'root',
+        storage,
+}
 
+
+const persistedContactsReducer = persistReducer(contactPersistConfig, contactReducer);
+
+
+export const store = configureStore({
+    reducer: {
+        contacts: persistedContactsReducer,
+    },
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware({
+            serializableCheck: {
+                ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+            },
+        }),
+});
+
+export const persistor = persistStore(store);
 
 // export const store = configureStore({
 //     reducer: {
 //         contacts: persistedContactsReducer,
+//         filter: persistedFilterReducer
 //     },
 //     middleware: (getDefaultMiddleware) =>
 //         getDefaultMiddleware({
@@ -36,10 +57,3 @@ import {reducerContactsSlice} from './Contacts/Contacts-slice';
 // });
 
 // export const persistor = persistStore(store);
-
-export const store = configureStore({
-    reducer: {
-        contacts: reducerContactsSlice,
-        filter: reducerFilterSlice
-    }
-});
